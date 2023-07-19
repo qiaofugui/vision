@@ -5,6 +5,8 @@ import router from './router'
 import http from '@/utils/http.js'
 // 全局样式文件
 import '@/assets/css/global.less'
+// 字体文件
+import '@/assets/font/iconfont.css'
 
 const pinia = createPinia()
 const app = createApp(App)

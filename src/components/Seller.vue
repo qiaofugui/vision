@@ -35,7 +35,7 @@ const initChart = () => {
 
   const option = {
     title: {
-      text: '▎商家销量统计',
+      text: '▎ 商家销量统计',
       textStyle: {
         fontSize: 66
       },
@@ -148,7 +148,6 @@ const startInterval = () => {
 }
 // 浏览器屏幕发生变化调用，屏幕适配
 const screenAdapter = () => {
-  console.log(sellerRef.value.offsetWidth)
   const titleFontSize = sellerRef.value.offsetWidth / 100 * 3.6
   const adapterOption = {
     title: {
