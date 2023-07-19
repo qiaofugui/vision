@@ -15,6 +15,11 @@ const routes = [
     path: '/trendpage',
     name: 'TrendPage',
     component: () => import(/* webpackChunkName: "about" */ '@/views/TrendPage.vue')
+  },
+  {
+    path: '/mappage',
+    name: 'MapPage',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/MapPage.vue')
   }
 ]
 
