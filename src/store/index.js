@@ -1,14 +1,11 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
+export const useStoreStore = defineStore('store', () => {
+  const count = ref(0)
+  function increment () {
+    count.value++
   }
+
+  return { count, increment }
 })
