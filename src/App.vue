@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  App
+  <RouterView />
 </template>
 
 <style lang="less"></style>
