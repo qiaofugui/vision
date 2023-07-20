@@ -4,6 +4,8 @@ import axios from 'axios'
 import { getProvinceMapInfo } from '@/utils/map_utils'
 import { useStoreStore } from '@/store/index.js'
 
+import { getThemeValue } from '@/utils/theme_utils'
+
 const { proxy } = getCurrentInstance()
 
 const store = useStoreStore()
@@ -66,7 +68,7 @@ const initChart = async () => {
       roam: true,
       label: {
         show: true,
-        color: '#fff'
+        color: getThemeValue(theme.value).titleColor
       },
       top: '5%',
       bottom: '5%',
