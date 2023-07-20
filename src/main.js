@@ -8,6 +8,8 @@ import '@/assets/css/global.less'
 // 字体文件
 import '@/assets/font/iconfont.css'
 
+import SocketService from './utils/socket_service'
+
 const pinia = createPinia()
 const app = createApp(App)
 
@@ -15,6 +17,9 @@ const app = createApp(App)
 app.config.globalProperties.$echarts = window.echarts
 
 app.config.globalProperties.$http = http
+
+// 对服务端进行 websocket 连接
+SocketService.Instance.connect()
 
 app.use(pinia)
 app.use(router)
