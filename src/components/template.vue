@@ -12,7 +12,6 @@ const allData = ref(null)
 onMounted(() => {
   initChart()
   getData()
-  screenAdapter()
 })
 // 窗口变化
 onMounted(() => {

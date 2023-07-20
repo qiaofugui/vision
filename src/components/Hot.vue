@@ -15,8 +15,7 @@ const titleFontSize = ref(0)
 
 onMounted(() => {
   initChart()
-  getData()
-  screenAdapter()
+  // getData()
 })
 // 窗口变化
 onMounted(() => {
@@ -69,8 +68,9 @@ const initChart = () => {
   echartInstance.setOption(initOption)
 }
 // 获取图表数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/hot')
+const getData = async (res) => {
+  // const { data: res } = await proxy.$http.get('/hot')
+  console.log(res)
   allData.value = res
   updateChart()
 }
@@ -152,6 +152,22 @@ const catName = computed(() => (
 const comStyle = computed(() => ({
   fontSize: titleFontSize.value + 'px'
 }))
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('hotData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('hotData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'hotData',
+    chartName: 'hot',
+    value: ''
+  })
+})
 </script>
 
 <template>

@@ -15,8 +15,7 @@ const mapData = ref({})
 
 onMounted(() => {
   initChart()
-  getData()
-  screenAdapter()
+  // getData()
 })
 // 窗口变化
 onMounted(() => {
@@ -84,8 +83,9 @@ const initChart = async () => {
   })
 }
 // 获取图表数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/map')
+const getData = async (res) => {
+  // const { data: res } = await proxy.$http.get('/map')
+  console.log(res)
   allData.value = res
   updateChart()
 }
@@ -152,6 +152,22 @@ const revertMap = () => {
   }
   echartInstance.setOption(revertOption)
 }
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('mapData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('mapData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'mapData',
+    chartName: 'map',
+    value: ''
+  })
+})
 </script>
 
 <template>

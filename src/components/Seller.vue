@@ -20,7 +20,7 @@ const limit = ref({
 
 onMounted(() => {
   initChart()
-  getData()
+  // getData()
 })
 // 窗口变化
 onMounted(() => {
@@ -107,8 +107,9 @@ const initChart = () => {
   })
 }
 // 获取服务器数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/seller')
+const getData = async (res) => {
+  // const { data: res } = await proxy.$http.get('/seller')
+  console.log(res)
   allData.value = res
   // 从小到大排序
   allData.value.sort((a, b) => a.value - b.value)
@@ -183,6 +184,22 @@ onUnmounted(() => {
   // echartInstance.dispose()
   // 移除窗口变化事件
   window.removeEventListener('resize', screenAdapter)
+})
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('sellerData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('sellerData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'sellerData',
+    chartName: 'seller',
+    value: ''
+  })
 })
 </script>
 

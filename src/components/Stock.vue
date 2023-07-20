@@ -14,8 +14,7 @@ const timerId = ref(null)
 
 onMounted(() => {
   initChart()
-  getData()
-  screenAdapter()
+  // getData()
 })
 // 窗口变化
 onMounted(() => {
@@ -47,8 +46,9 @@ const initChart = () => {
   })
 }
 // 获取图表数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/stock')
+const getData = async (res) => {
+  // const { data: res } = await proxy.$http.get('/stock')
+  console.log(res)
   allData.value = res
   updateChart()
   startInterval()
@@ -185,6 +185,22 @@ onUnmounted(() => {
   window.removeEventListener('resize', screenAdapter)
 
   clearInterval(timerId.value)
+})
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('stockData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('stockData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'stockData',
+    chartName: 'stock',
+    value: ''
+  })
 })
 
 </script>

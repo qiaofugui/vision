@@ -11,8 +11,7 @@ const allData = ref(null)
 
 onMounted(() => {
   initChart()
-  getData()
-  screenAdapter()
+  // getData()
 })
 // 窗口变化
 onMounted(() => {
@@ -93,8 +92,9 @@ const initChart = () => {
 }
 
 // 获取图表数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/rank')
+const getData = async (res) => {
+  // const { data: res } = await proxy.$http.get('/rank')
+  console.log(res)
   allData.value = res
   // 从大到小进行排序
   allData.value.sort((a, b) => b.value - a.value)
@@ -173,6 +173,22 @@ onUnmounted(() => {
   // 取消监听
   window.removeEventListener('resize', screenAdapter)
   clearInterval(timerId)
+})
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('rankData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('rankData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'rankData',
+    chartName: 'rank',
+    value: ''
+  })
 })
 </script>
 
