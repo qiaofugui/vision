@@ -7,24 +7,29 @@ const routes = [
   //   component: () => import(/* webpackChunkName: "about" */ '')
   // },
   {
-    path: '/sellerpage',
-    name: 'sellerPage',
+    path: '/seller',
+    name: 'Seller',
     component: () => import(/* webpackChunkName: "about" */ '@/views/SellerPage.vue')
   },
   {
-    path: '/trendpage',
-    name: 'TrendPage',
+    path: '/trend',
+    name: 'Trend',
     component: () => import(/* webpackChunkName: "about" */ '@/views/TrendPage.vue')
   },
   {
-    path: '/mappage',
-    name: 'MapPage',
+    path: '/map',
+    name: 'Map',
     component: () => import(/* webpackChunkName: "about" */ '@/views/MapPage.vue')
   },
   {
-    path: '/rankpage',
-    name: 'RankPage',
+    path: '/rank',
+    name: 'Rank',
     component: () => import(/* webpackChunkName: "about" */ '@/views/RankPage.vue')
+  },
+  {
+    path: '/hot',
+    name: 'Hot',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/HotPage.vue')
   }
 ]
 
