@@ -74,8 +74,23 @@ onUnmounted(() => {
 
 // 主题切换
 const handleChangeTheme = () => {
+  // store.changeTheme()
+
+  // 主题切换联动
+  proxy.$socket.send({
+    action: 'themeChange',
+    socketType: 'themeChange',
+    chartName: '',
+    value: ''
+  })
+}
+const recvThemeChange = () => {
   store.changeTheme()
 }
+proxy.$socket.registerCallBack('themeChange', recvThemeChange)
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('themeChange')
+})
 </script>
 
 <template>
