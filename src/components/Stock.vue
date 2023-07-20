@@ -77,7 +77,6 @@ const updateChart = () => {
   const showData = allData.value.slice(start, end)
   const seriesArr = showData.map((item, index) => ({
     type: 'pie',
-    radius: [110, 100],
     center: centerArr[index],
     hoverAnimation: false, // 关闭鼠标移入时的动画效果
     labelLine: {
@@ -90,7 +89,7 @@ const updateChart = () => {
     data: [
       {
         value: item.sales,
-        name: `${item.name} \n ${item.sales}`,
+        name: `${item.name} \n\n ${item.sales}`,
         itemStyle: {
           color: new proxy.$echarts.graphic.LinearGradient(0, 1, 0, 0, [
             {
@@ -120,8 +119,8 @@ const updateChart = () => {
 // 浏览器屏幕发生变化调用，屏幕适配
 const screenAdapter = () => {
   const titleFontSize = stockRef.value.offsetWidth / 100 * 3.6
-  const innerRadius = titleFontSize * 2
-  const outerRadius = innerRadius * 1.12
+  const innerRadius = titleFontSize * 3
+  const outerRadius = innerRadius * 1.1
   const adapterOption = {
     title: {
       textStyle: {
@@ -133,35 +132,35 @@ const screenAdapter = () => {
         type: 'pie',
         radius: [outerRadius, innerRadius],
         label: {
-          fontSize: titleFontSize / 2
+          fontSize: titleFontSize / 1.5
         }
       },
       {
         type: 'pie',
         radius: [outerRadius, innerRadius],
         label: {
-          fontSize: titleFontSize / 2
+          fontSize: titleFontSize / 1.5
         }
       },
       {
         type: 'pie',
         radius: [outerRadius, innerRadius],
         label: {
-          fontSize: titleFontSize / 2
+          fontSize: titleFontSize / 1.5
         }
       },
       {
         type: 'pie',
         radius: [outerRadius, innerRadius],
         label: {
-          fontSize: titleFontSize / 2
+          fontSize: titleFontSize / 1.5
         }
       },
       {
         type: 'pie',
         radius: [outerRadius, innerRadius],
         label: {
-          fontSize: titleFontSize / 2
+          fontSize: titleFontSize / 1.5
         }
       }
     ]

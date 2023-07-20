@@ -106,16 +106,16 @@ const screenAdapter = () => {
       }
     },
     legend: {
-      itemWidth: titleFontSize.value / 2,
-      itemHeight: titleFontSize.value / 2,
+      itemWidth: titleFontSize.value,
+      itemHeight: titleFontSize.value,
       itemGap: titleFontSize.value / 2,
       textStyle: {
-        fontSize: titleFontSize.value / 2
+        fontSize: titleFontSize.value / 1.5
       }
     },
     series: [
       {
-        radius: titleFontSize.value * 4.5,
+        radius: titleFontSize.value * 5,
         center: ['50%', '60%'],
         label: {
           fontSize: titleFontSize.value
@@ -150,7 +150,7 @@ const catName = computed(() => (
 
 // 计算样式按屏幕设置大小
 const comStyle = computed(() => ({
-  fontSize: titleFontSize.value + 'px'
+  fontSize: titleFontSize.value * 1.3 + 'px'
 }))
 
 // 组件创建注册回调函数
@@ -182,7 +182,7 @@ onMounted(() => {
 <style lang="less" scoped>
 .iconfont {
   position: absolute;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #fff;

@@ -124,7 +124,7 @@ const screenAdapter = () => {
       // 间隔
       itemGap: titleFontSize.value,
       textStyle: {
-        fontSize: titleFontSize.value / 2
+        fontSize: titleFontSize.value / 1.5
       }
     }
   }
