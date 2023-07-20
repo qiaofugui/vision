@@ -1,5 +1,5 @@
 <script setup>
-import { ref, getCurrentInstance, nextTick, onUnmounted, computed } from 'vue'
+import { ref, getCurrentInstance, nextTick, onUnmounted, computed, onMounted } from 'vue'
 
 import Hot from '@/components/Hot.vue'
 import Map from '@/components/Map.vue'
@@ -91,6 +91,19 @@ proxy.$socket.registerCallBack('themeChange', recvThemeChange)
 onUnmounted(() => {
   proxy.$socket.unRegisterCallBack('themeChange')
 })
+
+const time = ref('')
+const timer = ref(null)
+onMounted(() => {
+  time.value = proxy.$dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  if (timer.value) clearInterval(timer.value)
+  timer.value = setInterval(() => {
+    time.value = proxy.$dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  }, 1000)
+})
+onUnmounted(() => {
+  if (timer.value) clearInterval(timer.value)
+})
 </script>
 
 <template>
@@ -106,7 +119,7 @@ onUnmounted(() => {
       <span class="title">电商平台实时监控系统</span>
       <div class="title-right">
         <img :src="themeSrc" class="qiehuan" @click="handleChangeTheme">
-        <span class="datetime">2049-01-01 00:00:00</span>
+        <span class="datetime">{{ time }}</span>
       </div>
     </header>
     <div class="screen-body">

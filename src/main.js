@@ -10,6 +10,8 @@ import '@/assets/font/iconfont.css'
 
 import SocketService from './utils/socket_service'
 
+import dayjs from 'dayjs'
+
 const pinia = createPinia()
 const app = createApp(App)
 
@@ -21,6 +23,8 @@ app.config.globalProperties.$http = http
 // 对服务端进行 websocket 连接
 SocketService.Instance.connect()
 app.config.globalProperties.$socket = SocketService.Instance
+
+app.config.globalProperties.$dayjs = dayjs
 
 app.use(pinia)
 app.use(router)

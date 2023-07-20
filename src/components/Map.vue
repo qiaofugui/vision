@@ -88,6 +88,9 @@ const initChart = async () => {
     const provinceInfo = getProvinceMapInfo(arg.name)
     // 如果已经缓存了，就不再请求了
     if (!mapData.value[provinceInfo.key]) {
+      // 如果是直辖市，不需要请求
+      const arr = ['北京', '天津', '上海', '重庆', '新疆', '西藏', '宁夏', '内蒙古', '广西', '黑龙江', '吉林', '辽宁', '河北', '山东', '江苏', '安徽', '浙江', '福建', '广东', '海南', '云南', '贵州', '四川', '湖南', '湖北', '河南', '山西', '陕西', '甘肃', '青海', '江西', '台湾', '香港', '澳门']
+      if (!arr.includes(arg.name) || arg.name === '南海诸岛') return
       // 获取相应的省份地图
       const { data: res } = await axios.get(provinceInfo.path)
       // 缓存
