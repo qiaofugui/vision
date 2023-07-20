@@ -20,6 +20,7 @@ app.config.globalProperties.$http = http
 
 // 对服务端进行 websocket 连接
 SocketService.Instance.connect()
+app.config.globalProperties.$socket = SocketService.Instance
 
 app.use(pinia)
 app.use(router)
