@@ -1,5 +1,5 @@
 <script setup>
-import { getCurrentInstance, onMounted, ref, onUnmounted } from 'vue'
+import { getCurrentInstance, onMounted, ref, onUnmounted, defineExpose } from 'vue'
 const { proxy } = getCurrentInstance()
 
 // 图表 dom 元素
@@ -200,6 +200,11 @@ onMounted(() => {
     chartName: 'seller',
     value: ''
   })
+})
+
+// 让父组件可拿到自己方法
+defineExpose({
+  screenAdapter
 })
 </script>
 

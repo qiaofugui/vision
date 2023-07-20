@@ -1,4 +1,5 @@
 <script setup>
+import { ref, getCurrentInstance, nextTick } from 'vue'
 // import { getCurrentInstance } from 'vue'
 // const { proxy } = getCurrentInstance()
 // import { useStoreStore } from '@/store/index.js'
@@ -11,54 +12,98 @@ import Rank from '@/components/Rank.vue'
 import Seller from '@/components/Seller.vue'
 import Stock from '@/components/Stock.vue'
 import Trend from '@/components/Trend.vue'
+
+const { proxy } = getCurrentInstance()
+
+// 定义每个图表的全屏状态
+const fullScreenStatus = ref({
+  trendRef: false,
+  sellerRef: false,
+  mapRef: false,
+  rankRef: false,
+  hotRef: false,
+  stockRef: false
+})
+const trendRef = ref(null)
+const sellerRef = ref(null)
+const mapRef = ref(null)
+const rankRef = ref(null)
+const hotRef = ref(null)
+const stockRef = ref(null)
+
+// 全屏
+const changeSize = async (chartName) => {
+  // 1.改变 fullScreenStatus 的数据
+  // 2.需要调用每一个图表组件 screenAdapter 方法
+  fullScreenStatus.value[chartName] = !fullScreenStatus.value[chartName]
+
+  await nextTick()
+  proxy.$refs[chartName].screenAdapter()
+}
 </script>
 
 <template>
   <div class="screen-container">
     <header class="screen-header">
       <div>
-        <!-- <img :src="headerSrc" alt=""> -->
-        <img src="" alt="">
+        <img src="../assets/img/header_border_dark.png" alt="">
       </div>
       <span class="logo">
-        <!-- <img :src="logoSrc" alt="" /> -->
-        <img src="" alt="" />
+        LOGO
       </span>
       <span class="title">电商平台实时监控系统</span>
       <div class="title-right">
-        <!-- <img :src="themeSrc" class="qiehuan" @click="handleChangeTheme"> -->
-        <img src="" class="qiehuan">
+        <img src="../assets/img/qiehuan_dark.png" class="qiehuan">
         <span class="datetime">2049-01-01 00:00:00</span>
       </div>
     </header>
     <div class="screen-body">
       <section class="screen-left">
-        <div id="left-top">
+        <div id="left-top" :class="[fullScreenStatus.trendRef && 'fullscreen']">
           <!-- 销量趋势图表 -->
-          <Trend />        </div>
-        <div id="left-bottom">
+          <Trend ref="trendRef" />
+          <div class="resize" @click="changeSize('trendRef')">
+            <span :class="['iconfont', fullScreenStatus.trendRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
+        </div>
+        <div id="left-bottom" :class="[fullScreenStatus.sellerRef && 'fullscreen']">
           <!-- 商家销售金额图表 -->
-          <Seller />
+          <Seller ref="sellerRef" />
+          <div class="resize" @click="changeSize('sellerRef')">
+            <span :class="['iconfont', fullScreenStatus.sellerRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
         </div>
       </section>
       <section class="screen-middle">
-        <div id="middle-top">
+        <div id="middle-top" :class="[fullScreenStatus.mapRef && 'fullscreen']">
           <!-- 商家分布图表 -->
-          <Map />
+          <Map ref="mapRef" />
+          <div class="resize" @click="changeSize('mapRef')">
+            <span :class="['iconfont', fullScreenStatus.mapRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
         </div>
-        <div id="middle-bottom">
+        <div id="middle-bottom" :class="[fullScreenStatus.rankRef && 'fullscreen']">
           <!-- 地区销量排行图表 -->
-          <Rank />
+          <Rank ref="rankRef" />
+          <div class="resize" @click="changeSize('rankRef')">
+            <span :class="['iconfont', fullScreenStatus.rankRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
         </div>
       </section>
       <section class="screen-right">
-        <div id="right-top">
+        <div id="right-top" :class="[fullScreenStatus.hotRef && 'fullscreen']">
           <!-- 热销商品占比图表 -->
-          <Hot />
+          <Hot ref="hotRef" />
+          <div class="resize" @click="changeSize('hotRef')">
+            <span :class="['iconfont', fullScreenStatus.hotRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
         </div>
-        <div id="right-bottom">
+        <div id="right-bottom" :class="[fullScreenStatus.stockRef && 'fullscreen']">
           <!-- 库存销量分析图表 -->
-          <Stock />
+          <Stock ref="stockRef" />
+          <div class="resize" @click="changeSize('stockRef')">
+            <span :class="['iconfont', fullScreenStatus.stockRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          </div>
         </div>
       </section>
     </div>
@@ -66,6 +111,7 @@ import Trend from '@/components/Trend.vue'
 </template>
 
 <style lang="less" scoped>
+// 全屏样式的定义
 // 全屏样式的定义
 .fullscreen {
   position: fixed !important;
@@ -103,6 +149,7 @@ import Trend from '@/components/Trend.vue'
     left: 50%;
     top: 50%;
     font-size: 20px;
+    font-weight: 700;
     transform: translate(-50%, -50%);
   }
 
