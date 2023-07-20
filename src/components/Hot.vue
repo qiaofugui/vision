@@ -2,6 +2,8 @@
 import { getCurrentInstance, onMounted, ref, onUnmounted, computed, defineExpose, watch } from 'vue'
 import { useStoreStore } from '@/store/index.js'
 
+import { getThemeValue } from '@/utils/theme_utils'
+
 const { proxy } = getCurrentInstance()
 
 const store = useStoreStore()
@@ -171,7 +173,8 @@ const catName = computed(() => (
 
 // 计算样式按屏幕设置大小
 const comStyle = computed(() => ({
-  fontSize: titleFontSize.value * 1.3 + 'px'
+  fontSize: titleFontSize.value * 1.3 + 'px',
+  color: getThemeValue(theme.value).titleColor
 }))
 
 // 组件创建注册回调函数

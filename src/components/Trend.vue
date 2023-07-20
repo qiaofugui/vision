@@ -2,6 +2,8 @@
 import { getCurrentInstance, onMounted, ref, onUnmounted, computed, defineExpose, watch } from 'vue'
 import { useStoreStore } from '@/store/index.js'
 
+import { getThemeValue } from '@/utils/theme_utils'
+
 const { proxy } = getCurrentInstance()
 
 const store = useStoreStore()
@@ -177,12 +179,14 @@ const showTitle = computed(() => {
 const titleFontSize = ref(0)
 const comStyle = computed(() => {
   return {
-    fontSize: titleFontSize.value + 'px'
+    fontSize: titleFontSize.value + 'px',
+    color: getThemeValue(theme.value).titleColor
   }
 })
 const marginStyle = computed(() => {
   return {
-    marginLeft: titleFontSize.value + 'px'
+    marginLeft: titleFontSize.value + 'px',
+    backgroundColor: getThemeValue(theme.value).selectedBgc
   }
 })
 
@@ -237,10 +241,6 @@ defineExpose({
   .title-icon {
     margin-left: 10px;
     cursor: pointer;
-  }
-
-  .select-con {
-    background-color: #222733;
   }
 }
 </style>

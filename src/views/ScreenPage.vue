@@ -1,6 +1,5 @@
 <script setup>
-import { ref, getCurrentInstance, nextTick, onUnmounted } from 'vue'
-// import { getThemeValue } from '@/utils/theme_utils'
+import { ref, getCurrentInstance, nextTick, onUnmounted, computed } from 'vue'
 
 import Hot from '@/components/Hot.vue'
 import Map from '@/components/Map.vue'
@@ -9,10 +8,20 @@ import Seller from '@/components/Seller.vue'
 import Stock from '@/components/Stock.vue'
 import Trend from '@/components/Trend.vue'
 
+import { getThemeValue } from '@/utils/theme_utils'
 import { useStoreStore } from '@/store/index.js'
 const store = useStoreStore()
 
 const { proxy } = getCurrentInstance()
+
+const theme = computed(() => store.theme)
+const logoSrc = computed(() => getThemeValue(theme.value).logoSrc)
+const headerSrc = computed(() => getThemeValue(theme.value).headerBorderSrc)
+const themeSrc = computed(() => getThemeValue(theme.value).themeSrc)
+const containerStyle = computed(() => ({
+  backgroundColor: getThemeValue(theme.value).backgroundColor,
+  color: getThemeValue(theme.value).titleColor
+}))
 
 // 定义每个图表的全屏状态
 const fullScreenStatus = ref({
@@ -70,19 +79,18 @@ const handleChangeTheme = () => {
 </script>
 
 <template>
-  <div class="screen-container">
+  <div class="screen-container" :style="containerStyle">
     <header class="screen-header">
       <div>
-        <img src="../assets/img/header_border_dark.png" alt="">
+        <img :src="headerSrc" alt="">
       </div>
       <span class="logo">
-        LOGO
+        <img :src="logoSrc" alt="">
+        <!-- LOGO -->
       </span>
       <span class="title">电商平台实时监控系统</span>
       <div class="title-right">
-        <img
-          :src="store.theme === 'chalk' ? require('../assets/img/qiehuan_dark.png') : require('../assets/img/qiehuan_light.png')"
-          class="qiehuan" @click="handleChangeTheme">
+        <img :src="themeSrc" class="qiehuan" @click="handleChangeTheme">
         <span class="datetime">2049-01-01 00:00:00</span>
       </div>
     </header>
