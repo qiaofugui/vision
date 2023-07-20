@@ -1,7 +1,7 @@
 // 基于 axios 封装，网络请求的函数
 import axios from 'axios'
 
-export const baseURL = 'http://localhost:8888/api'
+export const baseURL = 'http://localhost:18010/api'
 
 // axios.create() 创建一个带配置项的自定义 axios 函数
 const http = axios.create({
