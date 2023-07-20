@@ -50,33 +50,20 @@ export default class SocketService {
     // 得到服务器发送过来的数据
     this.ws.onmessage = msg => {
       console.log('从服务器获取到了数据')
-      console.log(msg.data)
+      // console.log(msg.data)
       const recvData = JSON.parse(msg.data)
       const socketType = recvData.socketType
       // 判断回调函数是否存在
       if (this.callBackMapping[socketType]) {
         const action = recvData.action
-        switch (action) {
-          case 'getDate':
-            // const realData = JSON.parse(recvData.data)
-            this.callBackMapping[socketType].call(this, JSON.parse(recvData.data))
-            break
-          case 'fullScreen':
-            break
-          case 'themeChange':
-            break
-          default:
-            return ''
+        if (action === 'getData') {
+          const realData = JSON.parse(recvData.data)
+          this.callBackMapping[socketType].call(this, realData)
+        } else if (action === 'fullScreen') {
+          this.callBackMapping[socketType].call(this, recvData)
+        } else if (action === 'themeChange') {
+          this.callBackMapping[socketType].call(this, recvData)
         }
-        // if (action==='getDate') {
-
-        // } else if('fullScreen') {
-
-        // } else if('themeChange') {
-
-        // } else {
-
-        // }
       }
     }
   }

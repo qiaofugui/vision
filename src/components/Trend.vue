@@ -11,7 +11,7 @@ const allData = ref(null)
 
 onMounted(() => {
   initChart()
-  getData()
+  // getData()
   screenAdapter()
 })
 // 窗口变化
@@ -53,8 +53,10 @@ const initChart = () => {
   echartInstance.setOption(initOption)
 }
 // 获取图表数据
-const getData = async () => {
-  const { data: res } = await proxy.$http.get('/trend')
+const getData = (res) => {
+  // res 是服务端发送给客户端图表的数据
+  // const { data: res } = await proxy.$http.get('/trend')
+  console.log(res)
   allData.value = res
   updateChart()
 }
@@ -162,6 +164,22 @@ const marginStyle = computed(() => {
   return {
     marginLeft: titleFontSize.value + 'px'
   }
+})
+
+// 组件创建注册回调函数
+proxy.$socket.registerCallBack('trendData', getData)
+// 组件销毁注销回调函数
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('trendData')
+})
+onMounted(() => {
+  // 发送数据给服务器
+  proxy.$socket.send({
+    action: 'getData',
+    socketType: 'trendData',
+    chartName: 'trend',
+    value: ''
+  })
 })
 </script>
 
