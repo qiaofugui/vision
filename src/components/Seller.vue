@@ -94,6 +94,8 @@ const initChart = () => {
     ]
   }
 
+  echartInstance.setOption(option)
+
   // 对图标对象进行数据事件的监听
   echartInstance.on('mouseover', () => {
     console.log('mouseover')
@@ -103,8 +105,6 @@ const initChart = () => {
     console.log('mouseout')
     startInterval()
   })
-
-  echartInstance.setOption(option)
 }
 // 获取服务器数据
 const getData = async () => {
