@@ -1,7 +1,5 @@
 <script setup>
-import { ref, getCurrentInstance, nextTick } from 'vue'
-// import { getCurrentInstance } from 'vue'
-// const { proxy } = getCurrentInstance()
+import { ref, getCurrentInstance, nextTick, onUnmounted } from 'vue'
 // import { useStoreStore } from '@/store/index.js'
 // const store = useStoreStore()
 // import { getThemeValue } from '@/utils/theme_utils'
@@ -17,29 +15,52 @@ const { proxy } = getCurrentInstance()
 
 // 定义每个图表的全屏状态
 const fullScreenStatus = ref({
-  trendRef: false,
-  sellerRef: false,
-  mapRef: false,
-  rankRef: false,
-  hotRef: false,
-  stockRef: false
+  trend: false,
+  seller: false,
+  map: false,
+  rank: false,
+  hot: false,
+  stock: false
 })
-const trendRef = ref(null)
-const sellerRef = ref(null)
-const mapRef = ref(null)
-const rankRef = ref(null)
-const hotRef = ref(null)
-const stockRef = ref(null)
+const trend = ref(null)
+const seller = ref(null)
+const map = ref(null)
+const rank = ref(null)
+const hot = ref(null)
+const stock = ref(null)
 
 // 全屏
 const changeSize = async (chartName) => {
   // 1.改变 fullScreenStatus 的数据
   // 2.需要调用每一个图表组件 screenAdapter 方法
-  fullScreenStatus.value[chartName] = !fullScreenStatus.value[chartName]
+  // fullScreenStatus.value[chartName] = !fullScreenStatus.value[chartName]
+
+  // await nextTick()
+  // proxy.$refs[chartName].screenAdapter()
+
+  // 全屏效果联动
+  proxy.$socket.send({
+    action: 'fullScreen',
+    socketType: 'fullScreen',
+    chartName: chartName,
+    value: !fullScreenStatus.value[chartName]
+  })
+}
+
+const recvData = async (data) => {
+  console.log(data)
+  // 取出是哪个图表需要进行切换，切换成什么状态
+  const chartName = data.chartName
+  const targetValue = data.value
+  fullScreenStatus.value[chartName] = targetValue
 
   await nextTick()
   proxy.$refs[chartName].screenAdapter()
 }
+proxy.$socket.registerCallBack('fullScreen', recvData)
+onUnmounted(() => {
+  proxy.$socket.unRegisterCallBack('fullScreen')
+})
 </script>
 
 <template>
@@ -59,50 +80,50 @@ const changeSize = async (chartName) => {
     </header>
     <div class="screen-body">
       <section class="screen-left">
-        <div id="left-top" :class="[fullScreenStatus.trendRef && 'fullscreen']">
+        <div id="left-top" :class="[fullScreenStatus.trend && 'fullscreen']">
           <!-- 销量趋势图表 -->
-          <Trend ref="trendRef" />
-          <div class="resize" @click="changeSize('trendRef')">
-            <span :class="['iconfont', fullScreenStatus.trendRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Trend ref="trend" />
+          <div class="resize" @click="changeSize('trend')">
+            <span :class="['iconfont', fullScreenStatus.trend ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
-        <div id="left-bottom" :class="[fullScreenStatus.sellerRef && 'fullscreen']">
+        <div id="left-bottom" :class="[fullScreenStatus.seller && 'fullscreen']">
           <!-- 商家销售金额图表 -->
-          <Seller ref="sellerRef" />
-          <div class="resize" @click="changeSize('sellerRef')">
-            <span :class="['iconfont', fullScreenStatus.sellerRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Seller ref="seller" />
+          <div class="resize" @click="changeSize('seller')">
+            <span :class="['iconfont', fullScreenStatus.seller ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
       </section>
       <section class="screen-middle">
-        <div id="middle-top" :class="[fullScreenStatus.mapRef && 'fullscreen']">
+        <div id="middle-top" :class="[fullScreenStatus.map && 'fullscreen']">
           <!-- 商家分布图表 -->
-          <Map ref="mapRef" />
-          <div class="resize" @click="changeSize('mapRef')">
-            <span :class="['iconfont', fullScreenStatus.mapRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Map ref="map" />
+          <div class="resize" @click="changeSize('map')">
+            <span :class="['iconfont', fullScreenStatus.map ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
-        <div id="middle-bottom" :class="[fullScreenStatus.rankRef && 'fullscreen']">
+        <div id="middle-bottom" :class="[fullScreenStatus.rank && 'fullscreen']">
           <!-- 地区销量排行图表 -->
-          <Rank ref="rankRef" />
-          <div class="resize" @click="changeSize('rankRef')">
-            <span :class="['iconfont', fullScreenStatus.rankRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Rank ref="rank" />
+          <div class="resize" @click="changeSize('rank')">
+            <span :class="['iconfont', fullScreenStatus.rank ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
       </section>
       <section class="screen-right">
-        <div id="right-top" :class="[fullScreenStatus.hotRef && 'fullscreen']">
+        <div id="right-top" :class="[fullScreenStatus.hot && 'fullscreen']">
           <!-- 热销商品占比图表 -->
-          <Hot ref="hotRef" />
-          <div class="resize" @click="changeSize('hotRef')">
-            <span :class="['iconfont', fullScreenStatus.hotRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Hot ref="hot" />
+          <div class="resize" @click="changeSize('hot')">
+            <span :class="['iconfont', fullScreenStatus.hot ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
-        <div id="right-bottom" :class="[fullScreenStatus.stockRef && 'fullscreen']">
+        <div id="right-bottom" :class="[fullScreenStatus.stock && 'fullscreen']">
           <!-- 库存销量分析图表 -->
-          <Stock ref="stockRef" />
-          <div class="resize" @click="changeSize('stockRef')">
-            <span :class="['iconfont', fullScreenStatus.stockRef ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
+          <Stock ref="stock" />
+          <div class="resize" @click="changeSize('stock')">
+            <span :class="['iconfont', fullScreenStatus.stock ? 'icon-compress-alt' : 'icon-expand-alt']"></span>
           </div>
         </div>
       </section>
