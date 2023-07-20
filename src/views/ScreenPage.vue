@@ -10,6 +10,9 @@ import Trend from '@/components/Trend.vue'
 
 import { getThemeValue } from '@/utils/theme_utils'
 import { useStoreStore } from '@/store/index.js'
+
+import { toggleFull, isFull } from 'be-full'
+
 const store = useStoreStore()
 
 const { proxy } = getCurrentInstance()
@@ -104,6 +107,21 @@ onMounted(() => {
 onUnmounted(() => {
   if (timer.value) clearInterval(timer.value)
 })
+
+// 全屏切换按钮样式
+const fullScreenClickStyle = computed(() => ({
+  backgroundColor: getThemeValue(theme.value === 'chalk' ? 'vintage' : 'chalk').backgroundColor,
+  color: getThemeValue(theme.value === 'chalk' ? 'vintage' : 'chalk').titleColor
+}))
+
+// 思否全屏
+const isFullScreen = ref(isFull(document.documentElement))
+console.log(isFull(document.documentElement))
+//  全屏事件
+const fullScreenClick = () => {
+  toggleFull(document.documentElement)
+  isFullScreen.value = !isFull(document.documentElement)
+}
 </script>
 
 <template>
@@ -119,6 +137,8 @@ onUnmounted(() => {
       <span class="title">电商平台实时监控系统</span>
       <div class="title-right">
         <img :src="themeSrc" class="qiehuan" @click="handleChangeTheme">
+        <button class="full-screen-click" :style="fullScreenClickStyle" @click="fullScreenClick">{{ !isFullScreen ? '全屏' :
+          '退出全屏' }}</button>
         <span class="datetime">{{ time }}</span>
       </div>
     </header>
@@ -315,5 +335,12 @@ onUnmounted(() => {
   right: 20px;
   top: 20px;
   cursor: pointer;
+}
+
+.full-screen-click {
+  padding: 3px 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 3px;
 }
 </style>
