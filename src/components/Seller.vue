@@ -1,6 +1,27 @@
 <script setup>
-import { getCurrentInstance, onMounted, ref, onUnmounted, defineExpose } from 'vue'
+import { getCurrentInstance, onMounted, ref, onUnmounted, defineExpose, computed, watch } from 'vue'
+import { useStoreStore } from '@/store/index.js'
+
 const { proxy } = getCurrentInstance()
+
+const store = useStoreStore()
+
+// 监听主题变化
+const theme = computed(() => store.theme)
+watch(
+  () => theme.value,
+  (newValue, oldValue) => {
+    console.log('主题切换了')
+    // 1.销毁图表实例
+    echartInstance.dispose()
+    // 2.重新初始化图表实例
+    initChart()
+    // 3.屏幕适配
+    screenAdapter()
+    // 4.更新图表数据
+    updateChart()
+  }
+)
 
 // 图表 dom 元素
 const sellerRef = ref(null)
@@ -31,7 +52,7 @@ onMounted(() => {
 
 // 初始化 echartInstance 对象
 const initChart = () => {
-  echartInstance = proxy.$echarts.init(sellerRef.value, 'chalk')
+  echartInstance = proxy.$echarts.init(sellerRef.value, theme.value)
 
   const option = {
     title: {

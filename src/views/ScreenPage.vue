@@ -1,7 +1,5 @@
 <script setup>
 import { ref, getCurrentInstance, nextTick, onUnmounted } from 'vue'
-// import { useStoreStore } from '@/store/index.js'
-// const store = useStoreStore()
 // import { getThemeValue } from '@/utils/theme_utils'
 
 import Hot from '@/components/Hot.vue'
@@ -10,6 +8,9 @@ import Rank from '@/components/Rank.vue'
 import Seller from '@/components/Seller.vue'
 import Stock from '@/components/Stock.vue'
 import Trend from '@/components/Trend.vue'
+
+import { useStoreStore } from '@/store/index.js'
+const store = useStoreStore()
 
 const { proxy } = getCurrentInstance()
 
@@ -46,7 +47,7 @@ const changeSize = async (chartName) => {
     value: !fullScreenStatus.value[chartName]
   })
 }
-
+// 全屏切换联动
 const recvData = async (data) => {
   console.log(data)
   // 取出是哪个图表需要进行切换，切换成什么状态
@@ -61,6 +62,11 @@ proxy.$socket.registerCallBack('fullScreen', recvData)
 onUnmounted(() => {
   proxy.$socket.unRegisterCallBack('fullScreen')
 })
+
+// 主题切换
+const handleChangeTheme = () => {
+  store.changeTheme()
+}
 </script>
 
 <template>
@@ -74,7 +80,9 @@ onUnmounted(() => {
       </span>
       <span class="title">电商平台实时监控系统</span>
       <div class="title-right">
-        <img src="../assets/img/qiehuan_dark.png" class="qiehuan">
+        <img
+          :src="store.theme === 'chalk' ? require('../assets/img/qiehuan_dark.png') : require('../assets/img/qiehuan_light.png')"
+          class="qiehuan" @click="handleChangeTheme">
         <span class="datetime">2049-01-01 00:00:00</span>
       </div>
     </header>

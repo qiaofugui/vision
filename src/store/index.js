@@ -7,5 +7,15 @@ export const useStoreStore = defineStore('store', () => {
     count.value++
   }
 
-  return { count, increment }
+  const theme = ref('chalk')
+  const changeTheme = () => {
+    theme.value = theme.value === 'chalk' ? 'vintage' : 'chalk'
+  }
+
+  return {
+    count,
+    increment,
+    theme,
+    changeTheme
+  }
 })
