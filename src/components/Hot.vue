@@ -74,16 +74,16 @@ const initChart = () => {
     series: [
       {
         type: 'pie',
-        label: {
-          show: false
-        },
+        // label: {
+        //   show: false
+        // },
         emphasis: {
-          label: {
-            show: true
-          },
-          labelLine: {
-            show: false
-          }
+          // label: {
+          //   show: true
+          // },
+          // labelLine: {
+          //   show: false
+          // }
         }
       }
     ]
@@ -141,7 +141,7 @@ const screenAdapter = () => {
         radius: titleFontSize.value * 5,
         center: ['50%', '60%'],
         label: {
-          fontSize: titleFontSize.value
+          fontSize: titleFontSize.value / 1.5
         }
       }
     ]

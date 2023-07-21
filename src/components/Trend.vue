@@ -64,7 +64,10 @@ const initChart = () => {
       containLabel: true
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross'
+      }
     },
     legend: {
       left: 20,

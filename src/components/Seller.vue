@@ -2,6 +2,8 @@
 import { getCurrentInstance, onMounted, ref, onUnmounted, defineExpose, computed, watch } from 'vue'
 import { useStoreStore } from '@/store/index.js'
 
+import { getThemeValue } from '@/utils/theme_utils'
+
 const { proxy } = getCurrentInstance()
 
 const store = useStoreStore()
@@ -83,7 +85,7 @@ const initChart = () => {
         type: 'line',
         z: 0,
         lineStyle: {
-          color: '#2D3443',
+          color: 'rgba(45, 52, 67, 0.3)',
           width: 66
         }
       }
@@ -95,10 +97,7 @@ const initChart = () => {
         barWidth: 66,
         label: {
           show: true,
-          position: 'right',
-          textStyle: {
-            color: '#fff'
-          }
+          position: 'right'
         },
         itemStyle: {
           barBorderRadius: [0, 33, 33, 0],
@@ -151,7 +150,12 @@ const updateChart = () => {
     },
     series: [
       {
-        data: showData.map(item => item.value)
+        data: showData.map(item => item.value),
+        label: {
+          textStyle: {
+            color: getThemeValue(theme.value).titleColor
+          }
+        }
       }
     ]
   }

@@ -2,6 +2,8 @@
 import { getCurrentInstance, onMounted, ref, onUnmounted, defineExpose, computed, watch } from 'vue'
 import { useStoreStore } from '@/store/index.js'
 
+import { getThemeValue } from '@/utils/theme_utils'
+
 const { proxy } = getCurrentInstance()
 
 const store = useStoreStore()
@@ -76,6 +78,10 @@ const initChart = () => {
     series: [
       {
         type: 'bar',
+        label: {
+          show: true,
+          position: 'top'
+        },
         itemStyle: {
           color: arg => {
             let targetColorArr = null
@@ -165,6 +171,11 @@ const screenAdapter = () => {
     series: [
       {
         barWidth: titleFontSize,
+        label: {
+          textStyle: {
+            color: getThemeValue(theme.value).titleColor
+          }
+        },
         itemStyle: {
           barBorderRadius: [titleFontSize / 2, titleFontSize / 2, 0, 0]
         }
