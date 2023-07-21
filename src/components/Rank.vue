@@ -173,7 +173,8 @@ const screenAdapter = () => {
         barWidth: titleFontSize,
         label: {
           textStyle: {
-            color: getThemeValue(theme.value).titleColor
+            color: getThemeValue(theme.value).titleColor,
+            fontSize: titleFontSize / 2.3
           }
         },
         itemStyle: {

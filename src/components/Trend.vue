@@ -244,6 +244,7 @@ defineExpose({
   .title-icon {
     margin-left: 10px;
     cursor: pointer;
+    font-weight: 700;
   }
 }
 </style>

@@ -215,6 +215,7 @@ defineExpose({
   transform: translateY(-50%);
   cursor: pointer;
   color: #fff;
+  font-weight: 700;
 }
 
 .arr-left {

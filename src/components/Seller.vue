@@ -192,6 +192,11 @@ const screenAdapter = () => {
       {
         // 柱子的宽度
         barWidth: titleFontSize,
+        label: {
+          textStyle: {
+            fontSize: titleFontSize / 1.5
+          }
+        },
         itemStyle: {
           barBorderRadius: [0, titleFontSize / 2, titleFontSize / 2, 0]
         }

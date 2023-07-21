@@ -256,6 +256,7 @@ const fullScreenClick = () => {
   .datetime {
     font-size: 15px;
     margin-left: 10px;
+    font-weight: 700;
   }
 
   .logo {
@@ -335,12 +336,15 @@ const fullScreenClick = () => {
   right: 20px;
   top: 20px;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .full-screen-click {
-  padding: 3px 10px;
+  padding: 2px 8px;
   margin-left: 10px;
   border: none;
   border-radius: 3px;
+  font-size: 15px;
+  font-weight: 700;
 }
 </style>
