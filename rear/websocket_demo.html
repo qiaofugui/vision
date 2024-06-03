@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="connect">链接服务器</button>
+  <button id="send" disabled>发送数据</button>
+  <hr>
+  从服务端接收到的数据：
+  <p id="recv"></p>
+</body>
+<script>
+  let connect = document.querySelector('#connect')
+  let send = document.querySelector('#send')
+  let recv = document.querySelector('#recv')
+  let ws = null
+  connect.addEventListener('click', () => {
+    // 创建对象
+    ws = new WebSocket('ws://localhost:9999')
+    // 监听链接成功事件
+    ws.onopen = () => {
+      console.log('链接成功')
+      send.disabled = false
+    }
+    // 监听链接关闭事件/连接失败
+    ws.onclose = () => {
+      console.log('链接关闭')
+      send.disabled = true
+    }
+    // 监听服务器发送的消息
+    ws.onmessage = (msg) => {
+      console.log('接收到服务器发送的消息', msg)
+      recv.innerHTML = msg.data
+    }
+  })
+  send.addEventListener('click', () => {
+    // 从前端发送数据到后端
+    // ws.send('hello')
+    ws.send(JSON.stringify({
+      // action: 'getData',
+      // socketType: 'trendData',
+      // chartName: 'trend',
+      // value: '',
+
+      // action: 'fullScreen',
+      // socketType: 'fullScreen',
+      // chartName: '',
+      // value: true
+
+      action: 'themeChange',
+      socketType: 'themeChange',
+      chartName: '',
+      value: 'chalk'
+    }))
+  })
+</script>
+
+</html>
