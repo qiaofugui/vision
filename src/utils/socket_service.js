@@ -45,7 +45,7 @@ export default class SocketService {
     // 连接服务器
     if (!window.WebSocket) return console.log('您的浏览器不支持WebSocket')
     // this.ws = new WebSocket('ws://127.0.0.1:18011')
-    this.ws = new WebSocket('ws://vision.qiaofugui.cn:18011/')
+    this.ws = new WebSocket('https://vision-rear-glitch.glitch.me/')
 
     // 连接成功事件
     this.ws.onopen = () => {
